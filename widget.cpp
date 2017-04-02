@@ -19,6 +19,11 @@ Widget::Widget(QWidget *parent) :
     ui->gameWidget->setObjectName("ice");
     ui->sheepWidget->setObjectName("sheep");
 
+    ui->borderWidget1->setObjectName("border");
+    ui->borderWidget2->setObjectName("border");
+    ui->borderWidget3->setObjectName("border");
+    ui->borderWidget4->setObjectName("border");
+
 }
 
 Widget::~Widget()

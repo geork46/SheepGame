@@ -8,7 +8,7 @@ SheepTypeA::SheepTypeA(QWidget *parent) :
 
 }
 
-void SheepTypeA::tick()
+bool SheepTypeA::tick()
 {
     AbstractSheep::tick();
     m_vx *= 0.98;
@@ -43,9 +43,10 @@ void SheepTypeA::tick()
         {
             m_vx *= -1.0;
             m_vy *= -1.0;
-            return;
+            return true;
         }
 
     }
+    return true;
 }
 

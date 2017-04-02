@@ -63,6 +63,9 @@ int main(int argc, char *argv[])
                     "QWidget#sheep {"
                     "background:url(/home/info/Рабочий стол/texture/Sheep/Move/drop2.png);"
                     "}"
+                    "QWidget#border {"
+                    "background:url(/home/info/QtCreatorProject/SheepGame/texture/fence/Snow_fence_300.png);"
+                    "}"
                     ""
                     "");
 

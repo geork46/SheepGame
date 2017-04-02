@@ -12,7 +12,7 @@ public:
 
     void setGameField(GameField *gamefield);
 
-    virtual void tick();
+    virtual bool tick();
 
     int vx() const;
     void setVx(int vx);

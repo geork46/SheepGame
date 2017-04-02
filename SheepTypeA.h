@@ -8,7 +8,7 @@ class SheepTypeA : public AbstractSheep
 public:
     SheepTypeA(QWidget *parent = 0);
 
-    void tick();
+    bool tick();
 };
 
 #endif // SHEEPTYPEA_H

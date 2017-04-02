@@ -17,11 +17,13 @@ void AbstractSheep::setGameField(GameField *gamefield)
     this->setParent(m_gameField);
 }
 
-void AbstractSheep::tick()
+bool AbstractSheep::tick()
 {
-    if (fabs(m_vx) > 0.1)
+    if  (fabs(m_vx) < 0.1 && fabs(m_vy) < 0.1)
+        return false;
+//    if (fabs(m_vx) > 0.1)
         m_x += m_vx;
-    if (fabs(m_vy) > 0.1)
+//    if (fabs(m_vy) > 0.1)
         m_y += m_vy;
 
     if (m_x < 0)
@@ -49,6 +51,7 @@ void AbstractSheep::tick()
     move(m_x, m_y);
         m_vx *= 0.98;
     m_vy *= 0.98;
+    return true;
 }
 
 int AbstractSheep::vx() const

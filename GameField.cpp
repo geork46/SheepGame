@@ -10,7 +10,7 @@
 #include "AbstractSheep.h"
 
 GameField::GameField(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent), m_isMooving(false)
 {
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(onTimer()));
     m_timer.setSingleShot(false);
@@ -37,12 +37,12 @@ void GameField::onTimer()
 
 void GameField::paintEvent(QPaintEvent *e)
 {
-//  QStyleOption o;
-//  o.initFrom(this);
+  QStyleOption o;
+  o.initFrom(this);
   QPainter p(this);
-//  style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
+  style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
   p.setBrush(Qt::red);
-//  p.drawLines(m_points);
+  p.drawLines(m_points);
 
     const QVector<QPoint> *points = &m_points;
 
@@ -58,8 +58,6 @@ void GameField::paintEvent(QPaintEvent *e)
         c += n;
         QPoint d(b);
         d += n;
-//        QPoint c(a.x() + b.y() - a.y(), a.y() + b.x() - a.x());
-//        QPoint d(b.x() + b.y() - a.y(), b.y() + b.x() - a.x());
 
         line.append(a);
         line.append(b);
@@ -75,44 +73,45 @@ void GameField::paintEvent(QPaintEvent *e)
 
 void GameField::mousePressEvent(QMouseEvent *event)
 {
-    m_startPoint = event->pos();
-    m_startPoint -= QPoint(m_sheep->width() / 2, m_sheep->height() / 2);
+    qDebug() << m_sheep->geometry();
+    if (m_sheep->geometry().contains(event->pos()) && !m_timer.isActive())
+    {
+        m_startPoint = event->pos();
+        m_startPoint -= QPoint(m_sheep->width() / 2, m_sheep->height() / 2);
+        m_isMooving = true;
+    }
 }
 
 void GameField::mouseReleaseEvent(QMouseEvent *event)
 {
+    if (m_isMooving)
+    {
+        m_point =  event->pos();
 
-    m_point =  event->pos();
-    int dx = m_point.x() - m_startPoint.x(),
-            dy = m_point.y() - m_startPoint.y();
+        m_point -= QPoint(m_sheep->width() / 2, m_sheep->height() / 2);
+        int dx = m_point.x() - m_startPoint.x(),
+                dy = m_point.y() - m_startPoint.y();
 
-    m_point += QPoint(-dx, -dy);
-    m_point -= QPoint(m_sheep->width() / 2, m_sheep->height() / 2);
+        m_sheep->setPos(m_point.x(), m_point.y());
 
-    m_sheep->move(m_startPoint);
 
-    m_sheep->setVx(0.1 * dx);
-    m_sheep->setVy(0.1 * dy);
+        m_sheep->setVx(-0.1 * dx);
+        m_sheep->setVy(-0.1 * dy);
 
-    qDebug() << dx;
-
-    run();
-
+        run();
+    }
+    m_isMooving = false;
 }
 
 void GameField::mouseMoveEvent(QMouseEvent *event)
 {
 
-    m_newPoint = event->pos();
-
-    int dx = m_newPoint.x() - m_point.x(),
-            dy = m_newPoint.y() - m_point.y();
-
-    m_point += QPoint(dx, dy);
-    m_point -= QPoint(m_sheep->width() / 2, m_sheep->height() / 2);
-
-    m_sheep->move(m_point);
-
+    if (m_isMooving)
+    {
+        m_point = event->pos();
+        m_point -= QPoint(m_sheep->width() / 2, m_sheep->height() / 2);
+        m_sheep->setPos(m_point.x(), m_point.y());
+    }
 }
 
 const QVector<QPoint>* GameField::points() const
@@ -122,7 +121,10 @@ const QVector<QPoint>* GameField::points() const
 
 void GameField::tick()
 {
-    m_sheep->tick();
+    if (!m_sheep->tick())
+    {
+        m_timer.stop();
+    }
 }
 
 void GameField::addArea(QRegion region, AreaParametrs params)

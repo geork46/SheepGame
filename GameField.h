@@ -44,6 +44,7 @@ private:
     QPoint m_startPoint;
     QPoint m_point;
     QPoint m_newPoint;
+    bool m_isMooving;
 
     AbstractSheep* m_sheep;
     QVector<QPoint> m_points;
