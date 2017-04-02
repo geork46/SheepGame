@@ -34,10 +34,13 @@ void GameField::run()
 
 
     setStyleSheet(""
-                  ""
                   "QWidget#sheep {"
-                  "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_0.png);"
+                  "background:url(:/img/texture/Rosy_sheep/Real_run_small/rosy_step_lean.png);"
                   "}"
+                  ""
+//                  "QWidget#sheep {"
+//                  "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_0.png);"
+//                  "}"
                   "");
 }
 
@@ -96,8 +99,20 @@ void GameField::paintEvent(QPaintEvent *e)
         line.append(d);
         line.append(c);
         QPolygon pol(line);
+        QBrush brush(Qt::TexturePattern);
+        brush.setTextureImage(QImage(":/img/texture/fence/Snow_fence_256.jpg"));
+        p.setBrush(brush);
         p.drawPolygon(pol);
 
+    }
+
+    foreach (QRegion *r, m_areas.keys()) {
+//        p.setBrush(Qt::red);
+        p.setPen(Qt::NoPen);
+        QBrush brush(Qt::TexturePattern);
+        brush.setTextureImage(QImage(":/img/texture/lunka_128.png"));
+        p.setBrush(brush);
+        p.drawRects(r->rects());
     }
 
     p.end();
@@ -106,13 +121,13 @@ void GameField::paintEvent(QPaintEvent *e)
 void GameField::mousePressEvent(QMouseEvent *event)
 {
     qDebug() << m_sheep->geometry();
-    if (m_sheep->geometry().contains(event->pos()) && !m_timer.isActive())
-    {
+//    if (m_sheep->geometry().contains(event->pos()) && !m_timer.isActive())
+//    {
         m_startPoint = event->pos();
         m_startPoint -= QPoint(m_sheep->width() / 2, m_sheep->height() / 2);
         m_isMooving = true;
         m_timer2.start();
-    }
+//    }
 }
 
 void GameField::mouseReleaseEvent(QMouseEvent *event)
@@ -162,22 +177,36 @@ void GameField::tick()
         m_sheep->rotateOff();
         int x = m_sheep->geometry().x();
         int y = m_sheep->geometry().y();
-        QString style = QString(""
-                                ""
-                                "QWidget#sheep {"
-                                "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_%0.png);"
-                                "}"
-                                "").arg(0);
-        setStyleSheet(style);
-        m_sheep->move(x, y+10);
-        m_sheep->move(x, y);
+//        QString style = QString(""
+//                                ""
+//                                "QWidget#sheep {"
+//                                "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_%0.png);"
+//                                "}"
+//                                "").arg(0);
+//        setStyleSheet(style);
 
+
+    setStyleSheet(""
+                  ""
+                  "QWidget#sheep {"
+                  "background:url(:/img/texture/Rosy_sheep/Real_run_small/rosy_step_lean.png);"
+                  "}"
+                  "");
+    }
+    foreach (QRegion *r, m_areas.keys()) {
+        if (r->contains(QPoint(m_sheep->x() + m_sheep->width() / 2,
+                m_sheep->y() + m_sheep->height() / 2)) && m_areas[r].type == AreaParametrs::ICE_HOLE_AREA)
+        {
+        qDebug() << *r;
+        qDebug() << m_sheep->rect();
+            m_sheep->hide();
+        }
     }
 }
 
-void GameField::addArea(QRegion region, AreaParametrs params)
+void GameField::addArea(QRegion *region, AreaParametrs params)
 {
-
+    m_areas[region] = params;
 }
 
 void GameField::setBorder(const QVector<QPoint> &points)

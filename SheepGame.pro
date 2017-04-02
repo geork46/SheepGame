@@ -16,14 +16,17 @@ SOURCES += main.cpp\
         widget.cpp \
     GameField.cpp \
     AbstractSheep.cpp \
-    SheepTypeA.cpp
+    SheepTypeA.cpp \
+    StartForm.cpp
 
 HEADERS  += widget.h \
     GameField.h \
     AbstractSheep.h \
-    SheepTypeA.h
+    SheepTypeA.h \
+    StartForm.h
 
-FORMS    += widget.ui
+FORMS    += widget.ui \
+    StartForm.ui
 
 RESOURCES += \
     resource.qrc

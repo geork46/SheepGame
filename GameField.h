@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QRegion>
 #include <QVector>
+#include <QMap>
 
 #include <QTimer>
 
@@ -12,7 +13,11 @@ class AbstractSheep;
 
 struct AreaParametrs
 {
-    double c;
+    enum TypeArea
+    {
+        ICE_HOLE_AREA = 0
+    };
+    TypeArea type;
 };
 
 class GameField : public QWidget
@@ -22,7 +27,7 @@ public:
     explicit GameField(QWidget *parent = 0);
 
     void setSheep(AbstractSheep *sheep);
-    void addArea(QRegion region,  AreaParametrs params);
+    void addArea(QRegion * region,  AreaParametrs params);
     void setBorder(const QVector<QPoint> &points);
 
     void tick();
@@ -49,6 +54,7 @@ private:
 
     AbstractSheep* m_sheep;
     QVector<QPoint> m_points;
+    QMap<QRegion*, AreaParametrs> m_areas;
     QTimer m_timer;
     QTimer m_timer2;
 };

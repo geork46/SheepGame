@@ -7,8 +7,25 @@
         <file>texture/Real_run_crazy_small/rosy_step_crazy_00.png</file>
         <file>texture/Real_run_crazy_small/rosy_step_crazy_01.png</file>
         <file>texture/Real_run_crazy_small/rosy_step_crazy_02.png</file>
+        <file>texture/Rosy_sheep/Real_run_small/rosy_step_lean.png</file>
+        <file>texture/fence/Snow_fence_256.jpg</file>
+        <file>texture/lunka_128.png</file>
+        <file>texture/Ice_del_128.png</file>
+        <file>texture/Ice_del_128_copy.png</file>
+        <file>texture/Ice.png</file>
+        <file>texture/Ice2.png</file>
     </qresource>
     <qresource prefix="/">
         <file>texture/Ice/Ice.jpg</file>
+        <file>texture/lunka.png</file>
+    </qresource>
+    <qresource prefix="/main">
+        <file>texture/Titul/Fon/fon.png</file>
+        <file>texture/Titul/ce/tit_ships_beack.png</file>
+        <file>texture/Titul/ce/tit_ships_ce.png</file>
+        <file>texture/Titul/ce/tit_ships_e.png</file>
+        <file>texture/Titul/Play/play_00.png</file>
+        <file>texture/Titul/Play/play_01.png</file>
+        <file>texture/Titul/titi.jpg</file>
     </qresource>
 </RCC>

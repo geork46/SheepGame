@@ -19,6 +19,22 @@ Widget::Widget(QWidget *parent) :
     ui->gameWidget->setObjectName("ice");
     ui->sheepWidget->setObjectName("sheep");
 
+    QRect *r = new QRect(400, 300, 128, 128);
+    QRegion *reg = new QRegion(*r);
+    AreaParametrs a;
+    a.type = AreaParametrs::ICE_HOLE_AREA;
+    ui->gameWidget->addArea(reg, a);
+
+//    QVector<QPoint> lines;
+//    lines.append(QPoint(10, 210));
+//    lines.append(QPoint(210, 210));
+//    lines.append(QPoint(210, 210));
+//    lines.append(QPoint(210, 510));
+//    lines.append(QPoint(210, 510));
+//    lines.append(QPoint(550, 510));
+
+//    ui->gameWidget->setBorder(lines);
+
     ui->borderWidget1->setObjectName("border");
     ui->borderWidget2->setObjectName("border");
     ui->borderWidget3->setObjectName("border");
