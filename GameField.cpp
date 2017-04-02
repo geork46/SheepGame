@@ -15,6 +15,9 @@ GameField::GameField(QWidget *parent) :
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(onTimer()));
     m_timer.setSingleShot(false);
     m_timer.setInterval(20);
+    connect(&m_timer2, SIGNAL(timeout()), this, SLOT(onTimer2()));
+    m_timer2.setSingleShot(false);
+    m_timer2.setInterval(60);
 }
 
 void GameField::setSheep(AbstractSheep *sheep)
@@ -28,11 +31,39 @@ void GameField::run()
 {
     m_sheep->setPos(m_sheep->geometry().x(), m_sheep->geometry().y());
     m_timer.start();
+
+
+    setStyleSheet(""
+                  ""
+                  "QWidget#sheep {"
+                  "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_0.png);"
+                  "}"
+                  "");
 }
 
 void GameField::onTimer()
 {
     tick();
+    m_sheep->rotate();
+}
+
+void GameField::onTimer2()
+{
+    static int n = 0;
+    static int k = 0;
+    k = (k + 1) % 4;
+
+    QString style = QString(""
+                            "QWidget#sheep {"
+                            "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_%0.png);"
+                            "}"
+                            "").arg(k);
+
+//    if (n++ % 3 == 1)
+//    {
+        setStyleSheet(style);
+//    }
+
 }
 
 void GameField::paintEvent(QPaintEvent *e)
@@ -40,6 +71,7 @@ void GameField::paintEvent(QPaintEvent *e)
   QStyleOption o;
   o.initFrom(this);
   QPainter p(this);
+
   style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
   p.setBrush(Qt::red);
   p.drawLines(m_points);
@@ -79,6 +111,7 @@ void GameField::mousePressEvent(QMouseEvent *event)
         m_startPoint = event->pos();
         m_startPoint -= QPoint(m_sheep->width() / 2, m_sheep->height() / 2);
         m_isMooving = true;
+        m_timer2.start();
     }
 }
 
@@ -99,6 +132,7 @@ void GameField::mouseReleaseEvent(QMouseEvent *event)
         m_sheep->setVy(-0.1 * dy);
 
         run();
+        m_timer2.stop();
     }
     m_isMooving = false;
 }
@@ -124,6 +158,20 @@ void GameField::tick()
     if (!m_sheep->tick())
     {
         m_timer.stop();
+        m_timer2.stop();
+        m_sheep->rotateOff();
+        int x = m_sheep->geometry().x();
+        int y = m_sheep->geometry().y();
+        QString style = QString(""
+                                ""
+                                "QWidget#sheep {"
+                                "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_%0.png);"
+                                "}"
+                                "").arg(0);
+        setStyleSheet(style);
+        m_sheep->move(x, y+10);
+        m_sheep->move(x, y);
+
     }
 }
 

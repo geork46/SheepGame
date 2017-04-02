@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>texture/Rosy_sheep/Real_run_small/rosy_step_0.png</file>
+        <file>texture/Rosy_sheep/Real_run_small/rosy_step_1.png</file>
+        <file>texture/Rosy_sheep/Real_run_small/rosy_step_2.png</file>
+        <file>texture/Rosy_sheep/Real_run_small/rosy_step_3.png</file>
+        <file>texture/Real_run_crazy_small/rosy_step_crazy_00.png</file>
+        <file>texture/Real_run_crazy_small/rosy_step_crazy_01.png</file>
+        <file>texture/Real_run_crazy_small/rosy_step_crazy_02.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>texture/Ice/Ice.jpg</file>
+    </qresource>
+</RCC>

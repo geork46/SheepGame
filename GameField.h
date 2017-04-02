@@ -32,6 +32,7 @@ public:
 
 private slots:
     void onTimer();
+    void onTimer2();
 
 protected:
     void paintEvent(QPaintEvent *e);
@@ -49,6 +50,7 @@ private:
     AbstractSheep* m_sheep;
     QVector<QPoint> m_points;
     QTimer m_timer;
+    QTimer m_timer2;
 };
 
 #endif // GAMEFIELD_H

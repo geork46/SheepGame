@@ -7,12 +7,25 @@ class GameField;
 
 class AbstractSheep : public QWidget
 {
+
+public:
+
+void rotate();
+void rotateOff();
+
+protected:
+
+void paintEvent(QPaintEvent *);
+
 public:
     explicit AbstractSheep(QWidget *parent = 0);
 
     void setGameField(GameField *gamefield);
 
     virtual bool tick();
+
+    bool m_rotate;
+    int m_degree;
 
     int vx() const;
     void setVx(int vx);

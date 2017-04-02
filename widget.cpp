@@ -24,6 +24,17 @@ Widget::Widget(QWidget *parent) :
     ui->borderWidget3->setObjectName("border");
     ui->borderWidget4->setObjectName("border");
 
+
+    ui->snowWidget->setObjectName("snow");
+    ui->snowWidget2->setObjectName("snow");
+    ui->snowWidget3->setObjectName("snow");
+    ui->snowWidget4->setObjectName("snow");
+    ui->snowWidget5->setObjectName("snow");
+    ui->snowWidget6->setObjectName("snow");
+
+
+    ui->treeWidget->setObjectName("tree");
+
 }
 
 Widget::~Widget()
