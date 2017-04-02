@@ -17,16 +17,19 @@ SOURCES += main.cpp\
     GameField.cpp \
     AbstractSheep.cpp \
     SheepTypeA.cpp \
-    StartForm.cpp
+    StartForm.cpp \
+    GameOverDialog.cpp
 
 HEADERS  += widget.h \
     GameField.h \
     AbstractSheep.h \
     SheepTypeA.h \
-    StartForm.h
+    StartForm.h \
+    GameOverDialog.h
 
 FORMS    += widget.ui \
-    StartForm.ui
+    StartForm.ui \
+    GameOverDialog.ui
 
 RESOURCES += \
     resource.qrc

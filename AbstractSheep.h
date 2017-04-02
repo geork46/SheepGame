@@ -24,6 +24,7 @@ public:
 
     virtual bool tick();
 
+
     bool m_rotate;
     int m_degree;
 

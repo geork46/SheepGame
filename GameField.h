@@ -9,6 +9,8 @@
 
 #include <QTimer>
 
+
+
 class AbstractSheep;
 
 struct AreaParametrs
@@ -25,15 +27,26 @@ class GameField : public QWidget
 Q_OBJECT
 public:
     explicit GameField(QWidget *parent = 0);
+    ~GameField();
 
     void setSheep(AbstractSheep *sheep);
     void addArea(QRegion * region,  AreaParametrs params);
     void setBorder(const QVector<QPoint> &points);
 
+    void gameOver();
+    void youWin();
+
     void tick();
     void run();
+    void decCount();
 
     const QVector<QPoint>* points() const;
+
+
+    QList<QWidget*>* getSweets();
+
+signals:
+    void countsChanged(int n);
 
 private slots:
     void onTimer();
@@ -47,6 +60,15 @@ protected:
     void mouseMoveEvent(QMouseEvent* event);
 
 private:
+    void generateSweets();
+    void generateIceHole();
+
+
+    static bool m_sweetsGenerated;
+    QList<QWidget*> m_sweets;
+
+    int m_count;
+
     QPoint m_startPoint;
     QPoint m_point;
     QPoint m_newPoint;

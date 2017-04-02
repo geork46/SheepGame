@@ -28,4 +28,13 @@
         <file>texture/Titul/Play/play_01.png</file>
         <file>texture/Titul/titi.jpg</file>
     </qresource>
+    <qresource prefix="/sweety">
+        <file>texture/tX/conf_00.png</file>
+        <file>texture/tX/conf_01.png</file>
+        <file>texture/tX/conf_03.png</file>
+        <file>texture/tX/conf_04.png</file>
+        <file>texture/tX/conf_05.png</file>
+        <file>texture/tX/conf_06.png</file>
+        <file>texture/tX/conf_02.png</file>
+    </qresource>
 </RCC>

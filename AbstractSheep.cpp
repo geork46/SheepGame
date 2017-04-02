@@ -79,56 +79,69 @@ bool AbstractSheep::tick()
         m_vy *= -1.0;
     }
 
-//    static int n = 0;
-//    static int k = 0;
-//    k = (k + 1) % 4;
+////    static int n = 0;
+////    static int k = 0;
+////    k = (k + 1) % 4;
 
-//    QString style = QString(""
-//                            ""
-//                            "QWidget#sheep {"
-//                            "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_%0.png);"
-//                            "}"
-//                            "").arg(k);
+////    QString style = QString(""
+////                            ""
+////                            "QWidget#sheep {"
+////                            "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_%0.png);"
+////                            "}"
+////                            "").arg(k);
 
-//    if (n++ % 3 == 0)
+////    if (n++ % 3 == 0)
+////    {
+//////        setStyleSheet(style);
+////    }
+
+
+//    const QVector<QPoint> *points = m_gameField->points();
+
+//    for (int i = 0; i < points->size() / 2;  ++i)
 //    {
-////        setStyleSheet(style);
+//        QVector<QPoint> line;
+//        QPoint a = points->at(2 * i);
+//        QPoint b = points->at(2 * i + 1);
+//        QPoint n(b.y() - a.y(),b.x() - a.x());
+//        n /= n.manhattanLength();
+//        n *= 2;
+//        QPoint c(b);
+//        c += n;
+//        QPoint d(a);
+//        d += n;
+////        QPoint c(a.x() + b.y() - a.y(), a.y() + b.x() - a.x());
+////        QPoint d(b.x() + b.y() - a.y(), b.y() + b.x() - a.x());
+
+//        line.append(a);
+//        line.append(b);
+//        line.append(c);
+//        line.append(d);
+//        QPolygon p(line);
+//        QRegion r(p);
+
+
+//        if (r.intersects(geometry()))
+//        {
+//            m_vx *= -1.0;
+//            m_vy *= -1.0;
+//            break;
+////            return true;
+//        }
+
 //    }
 
-
-    const QVector<QPoint> *points = m_gameField->points();
-
-    for (int i = 0; i < points->size() / 2;  ++i)
+    QList<QWidget*> *m_sweats = m_gameField->getSweets();
+    foreach(QWidget* w, *m_sweats)
     {
-        QVector<QPoint> line;
-        QPoint a = points->at(2 * i);
-        QPoint b = points->at(2 * i + 1);
-        QPoint n(b.y() - a.y(),b.x() - a.x());
-        n /= n.manhattanLength();
-        n *= 2;
-        QPoint c(b);
-        c += n;
-        QPoint d(a);
-        d += n;
-//        QPoint c(a.x() + b.y() - a.y(), a.y() + b.x() - a.x());
-//        QPoint d(b.x() + b.y() - a.y(), b.y() + b.x() - a.x());
-
-        line.append(a);
-        line.append(b);
-        line.append(c);
-        line.append(d);
-        QPolygon p(line);
-        QRegion r(p);
-
-
-        if (r.intersects(geometry()))
+        if (w != 0 && geometry().intersects(w->geometry()))
         {
-            m_vx *= -1.0;
-            m_vy *= -1.0;
-            break;
-//            return true;
+            w->hide();
+            w->deleteLater();
+            m_sweats->removeAll(w);
+            m_gameField->decCount();
+//            w = 0;
         }
-
     }
 
 

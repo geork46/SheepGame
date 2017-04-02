@@ -51,11 +51,25 @@ Widget::Widget(QWidget *parent) :
 
     ui->treeWidget->setObjectName("tree");
 
+    connect(ui->gameWidget, SIGNAL(destroyed(QObject*)), this, SLOT(onClose()));
+    connect(ui->gameWidget, SIGNAL(countsChanged(int)), this, SLOT(countChanged(int)));
+    move(100, 60);
+    resize(1600, 900);
 }
 
 Widget::~Widget()
 {
     delete ui;
+}
+
+void Widget::onClose()
+{
+    close();
+}
+
+void Widget::countChanged(int n)
+{
+    ui->numberLabel->setText(QString::number(n));
 }
 
 

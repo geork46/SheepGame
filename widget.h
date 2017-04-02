@@ -17,6 +17,11 @@ public:
     ~Widget();
 
 
+
+private slots:
+    void onClose();
+    void countChanged(int n);
+
 private:
     Ui::Widget *ui;
     QWidget *e;

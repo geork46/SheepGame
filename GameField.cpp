@@ -5,9 +5,18 @@
 #include <QVector>
 #include <QPoint>
 #include <QDebug>
+#include <QDialog>
 #include <QMouseEvent>
 
 #include "AbstractSheep.h"
+
+#include "GameOverDialog.h"
+
+#include <cstdlib>
+#include <iostream>
+#include <ctime>
+
+bool GameField::m_sweetsGenerated = false;
 
 GameField::GameField(QWidget *parent) :
     QWidget(parent), m_isMooving(false)
@@ -18,6 +27,14 @@ GameField::GameField(QWidget *parent) :
     connect(&m_timer2, SIGNAL(timeout()), this, SLOT(onTimer2()));
     m_timer2.setSingleShot(false);
     m_timer2.setInterval(60);
+    m_count = 21;
+    decCount();
+
+}
+
+GameField::~GameField()
+{
+    m_sweetsGenerated = false;
 }
 
 void GameField::setSheep(AbstractSheep *sheep)
@@ -42,6 +59,14 @@ void GameField::run()
 //                  "background:url(:img/texture/Rosy_sheep/Real_run_small/rosy_step_0.png);"
 //                  "}"
                   "");
+}
+
+void GameField::decCount()
+{
+    m_count--;
+    emit countsChanged(m_count);
+    if (!m_count)
+        youWin();
 }
 
 void GameField::onTimer()
@@ -71,6 +96,8 @@ void GameField::onTimer2()
 
 void GameField::paintEvent(QPaintEvent *e)
 {
+
+    generateSweets();
   QStyleOption o;
   o.initFrom(this);
   QPainter p(this);
@@ -163,9 +190,66 @@ void GameField::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
+void GameField::generateSweets()
+{
+    if (m_sweetsGenerated)
+        return;
+
+     std::srand(unsigned(std::time(0)));
+
+
+    for (int i = 0; i < m_count; ++i)
+    {
+
+        QString imgName = QString(":/sweety/texture/tX/conf_0%1.png").arg(i % 7);
+        QImage im(imgName);
+        QWidget *w = new QWidget(this);
+        w->resize(im.size());
+        w->setStyleSheet(QString(""
+                         ""
+                    "QWidget {"
+                    "background:url(") + imgName + QString( ");"
+                    "}"
+                         ""
+                         ""));
+                         w->show();
+        int x = (rand() %  (width() - w->width()) );
+        int y = rand() % (height() - w->height()) ;
+        w->move(x, y);
+        m_sweets.push_back(w);
+    }
+    m_sweetsGenerated = true;
+    generateIceHole();
+}
+
+void GameField::generateIceHole()
+{
+    int n = rand() % 5;
+    int wid = 128;
+    for (int i = 0; i < n; ++i)
+    {
+        int x = (rand() %  (width() - wid) );
+        int y = rand() % (height() - wid) ;
+        QRect r(x, y, wid, wid);
+        QRegion *reg = new QRegion(r);
+        AreaParametrs a;
+        a.type = AreaParametrs::ICE_HOLE_AREA;
+        addArea(reg, a);
+        QWidget *w = new QWidget(this);
+        w->move(x, y);
+        w->resize(wid, wid);
+    }
+
+}
+
 const QVector<QPoint>* GameField::points() const
 {
     return &m_points;
+}
+
+QList<QWidget *> *GameField::getSweets()
+{
+    return &m_sweets;
 }
 
 void GameField::tick()
@@ -197,9 +281,11 @@ void GameField::tick()
         if (r->contains(QPoint(m_sheep->x() + m_sheep->width() / 2,
                 m_sheep->y() + m_sheep->height() / 2)) && m_areas[r].type == AreaParametrs::ICE_HOLE_AREA)
         {
-        qDebug() << *r;
-        qDebug() << m_sheep->rect();
+//        qDebug() << *r;
+//        qDebug() << m_sheep->rect();
             m_sheep->hide();
+            gameOver();
+
         }
     }
 }
@@ -213,5 +299,22 @@ void GameField::setBorder(const QVector<QPoint> &points)
 {
     m_points.clear();
     m_points.append(points);
+
+}
+
+void GameField::gameOver()
+{
+    GameOverDialog d;
+    d.exec();
+    close();
+    deleteLater();
+}
+
+void GameField::youWin()
+{
+    GameOverDialog d(true);
+    d.exec();
+    close();
+    deleteLater();
 
 }
