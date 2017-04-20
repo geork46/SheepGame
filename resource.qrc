@@ -37,4 +37,10 @@
         <file>texture/tX/conf_06.png</file>
         <file>texture/tX/conf_02.png</file>
     </qresource>
+    <qresource prefix="/last">
+        <file>texture/Sheep/Move/drop.png</file>
+        <file>texture/Snow/Snow_300.jpg</file>
+        <file>texture/Snow/Snow_wood.jpg</file>
+        <file>texture/Ice/Ice.jpg</file>
+    </qresource>
 </RCC>

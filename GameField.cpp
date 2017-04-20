@@ -298,7 +298,11 @@ void GameField::addArea(QRegion *region, AreaParametrs params)
 void GameField::setBorder(const QVector<QPoint> &points)
 {
     m_points.clear();
-    m_points.append(points);
+
+    foreach (QPoint p, points) {
+        m_points.append(p);
+    }
+//    m_points.append(points);
 
 }
 
